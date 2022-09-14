@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "betterlily",
+  "version": "${version}",
+  "name": "Better Lily Pads",
+  "description": "Allows any block to be placed on lily pads",
+  "authors": [
+    "Mehvahdjukaar"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/better-lily-pads"
+  },
+  "license": "GPL-3",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.mehvahdjukaar.betterlily.fabric.BetterLilyClient"
+    ],
+    "main": [
+      "net.mehvahdjukaar.betterlily.fabric.BetterLilyImpl"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.17"
+  }
+}
