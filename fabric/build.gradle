@@ -35,6 +35,8 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:4.0.6", {
         exclude module: "fabric-api"
     }
+    modImplementation ("net.mehvahdjukaar:moonlight-fabric:${rootProject.moonlight_version}")
+
 }
 
 

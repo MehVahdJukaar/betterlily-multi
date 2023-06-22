@@ -1,6 +1,7 @@
 package net.mehvahdjukaar.betterlily.mixins;
 
 import net.mehvahdjukaar.betterlily.BetterLily;
+import net.mehvahdjukaar.betterlily.WaterloggedLilyBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -28,11 +29,15 @@ public class WaterLilyMixin extends Block {
         ItemStack stack = player.getItemInHand(hand);
         Item item = stack.getItem();
         if(!stack.isEmpty() && !(item instanceof PlaceOnWaterBlockItem)){
-            if(level.getBlockState(pos.below()).is(Blocks.WATER)){
+            BlockPos below = pos.below();
+            if(level.getBlockState(below).is(Blocks.WATER)){
 
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                level.setBlock(pos.below(), BetterLily.getBetterLily().defaultBlockState(), 2);
-                level.scheduleTick(pos.below(), BetterLily.getBetterLily(),1);
+                level.setBlock(below, BetterLily.WATERLILY_BLOCK.get().defaultBlockState(), 2);
+                level.scheduleTick(below, BetterLily.WATERLILY_BLOCK.get(),1);
+                if(level.getBlockEntity(below) instanceof WaterloggedLilyBlockEntity te){
+                    te.setHeldBlock(state);
+                }
             }
         }
         return InteractionResult.PASS;
