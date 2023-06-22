@@ -15,7 +15,6 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.mehvahdjukaar.betterlily.fabric.BetterLilyClient"
     ],
     "main": [
       "net.mehvahdjukaar.betterlily.fabric.BetterLilyFabric"
@@ -26,6 +25,7 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.17"
+    "minecraft": ">=1.20",
+    "moonlight": ">=1.20-2.5.0"
   }
 }

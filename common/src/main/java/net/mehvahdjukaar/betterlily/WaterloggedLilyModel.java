@@ -22,13 +22,15 @@ import java.util.List;
 
 public class WaterloggedLilyModel implements CustomBakedModel {
 
+    public WaterloggedLilyModel(){}
+    
     private final BlockModelShaper blockModelShaper = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper();
 
     @Override
     public List<BakedQuad> getBlockQuads(BlockState state, Direction side,
                                          RandomSource rand, RenderType renderType,
                                          ExtraModelData data) {
-        BlockState mimic = data.get(WaterloggedLilyBlockEntity.MIMIC);
+        BlockState mimic = data.get(WaterloggedLilyBlockEntity.MIMIC_KEY);
         List<BakedQuad> quads = new ArrayList<>();
 
         if (mimic != null && !mimic.isAir()) {
@@ -38,7 +40,7 @@ public class WaterloggedLilyModel implements CustomBakedModel {
 
             for (BakedQuad q : mimicQuads) {
                 int[] v = Arrays.copyOf(q.getVertices(), q.getVertices().length);
-                VertexUtil.moveVertices(v, Direction.UP, 15/16f);
+                VertexUtil.moveVertices(v, Direction.UP, (float) (1 + BetterLily.OFFSET.get()));
 
                 quads.add(new BakedQuad(v, q.getTintIndex(), q.getDirection(), q.getSprite(), q.isShade()));
             }
@@ -51,7 +53,7 @@ public class WaterloggedLilyModel implements CustomBakedModel {
 
     @Override
     public TextureAtlasSprite getBlockParticle(ExtraModelData data) {
-        BlockState mimic = data.get(WaterloggedLilyBlockEntity.MIMIC);
+        BlockState mimic = data.get(WaterloggedLilyBlockEntity.MIMIC_KEY);
         if (mimic != null && !mimic.isAir()) {
 
             BakedModel model = blockModelShaper.getBlockModel(mimic);

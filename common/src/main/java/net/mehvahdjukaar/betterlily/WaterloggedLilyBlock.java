@@ -23,6 +23,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -142,14 +143,14 @@ public class WaterloggedLilyBlock extends WaterlilyBlock implements LiquidBlockC
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof IBlockHolder tile) {
             //checks again if the content itself can be mined
             BlockState heldState = tile.getHeldBlock();
             if (builder.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof ServerPlayer player) {
                 if (!ForgeHelper.canHarvestBlock(heldState, builder.getLevel(),
-                        new BlockPos(builder.getParameter(LootContextParams.ORIGIN)), player)) {
+                        BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN)), player)) {
                     return drops;
                 }
             }

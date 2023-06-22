@@ -1,1 +1,3 @@
 - waterlogged lilypads now supposedly work with any modded lilypad
+- updated to 1.20
+- added config to tweak the block position
