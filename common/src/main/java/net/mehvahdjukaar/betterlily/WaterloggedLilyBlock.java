@@ -12,20 +12,25 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -73,15 +78,25 @@ public class WaterloggedLilyBlock extends WaterlilyBlock implements LiquidBlockC
 
     @Override
     public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
-        maybeConvertToVanilla(serverLevel, pos);
+        if(!maybeConvertToVanilla(serverLevel, pos)){
+            //updates clients
+           // serverLevel.sendBlockUpdated(pos, state, state, 3);
+        }
         super.tick(state, serverLevel, pos, random);
     }
 
-    private void maybeConvertToVanilla(LevelAccessor serverLevel, BlockPos pos) {
+    private boolean maybeConvertToVanilla(LevelAccessor serverLevel, BlockPos pos) {
         if (serverLevel.getBlockState(pos.above()).isAir() && serverLevel.getBlockEntity(pos) instanceof WaterloggedLilyBlockEntity te) {
             serverLevel.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
             serverLevel.setBlock(pos.above(), te.getHeldBlock(), 3);
+            for(var e : serverLevel.getEntitiesOfClass(Entity.class, AABB_SUPPORT.bounds().move(pos).move(0,1/16f,0))){
+                if (e.getPistonPushReaction() != PushReaction.IGNORE) {
+                    e.move(MoverType.SHULKER_BOX, new Vec3(0, 3/32f,0));
+                }
+            }
+            return true;
         }
+        return false;
     }
 
     @Override

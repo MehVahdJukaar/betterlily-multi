@@ -38,8 +38,8 @@ public class BetterLily {
         ConfigBuilder config = ConfigBuilder.create(MOD_ID, ConfigType.CLIENT);
         OFFSET = config.comment("set to 0 tho have lilypads at the same exact position as vanilla." +
                         "negative numbers will place them in their own blockspace right below avoiding any clipping." +
-                        "best of both worlds at -0.01")
-                .define("y_offset", -1/16f, -1, 1);
+                        "best of both worlds at default as its barely within its space")
+                .define("y_offset", -0.25/16f -0.001, -1, 1);
 
         config.buildAndRegister();
     }
