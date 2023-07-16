@@ -1,2 +1,2 @@
-added blacklist tag
-improved coloring to mimic original block
+fixed crash with new moonlight
+fixed block color

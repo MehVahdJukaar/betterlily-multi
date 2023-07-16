@@ -1,5 +1,6 @@
 package net.mehvahdjukaar.betterlily;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.mehvahdjukaar.moonlight.api.client.model.CustomBakedModel;
 import net.mehvahdjukaar.moonlight.api.client.model.ExtraModelData;
 import net.mehvahdjukaar.moonlight.api.client.util.VertexUtil;
@@ -22,8 +23,9 @@ import java.util.List;
 
 public class WaterloggedLilyModel implements CustomBakedModel {
 
-    public WaterloggedLilyModel(){}
-    
+    public WaterloggedLilyModel() {
+    }
+
     private final BlockModelShaper blockModelShaper = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper();
 
     @Override
@@ -38,9 +40,11 @@ public class WaterloggedLilyModel implements CustomBakedModel {
             BakedModel model = blockModelShaper.getBlockModel(mimic);
             List<BakedQuad> mimicQuads = model.getQuads(mimic, side, rand);
 
+            PoseStack pose = new PoseStack();
+            pose.translate(0, (float) (1 + BetterLilyClient.OFFSET.get()), 0);
             for (BakedQuad q : mimicQuads) {
                 int[] v = Arrays.copyOf(q.getVertices(), q.getVertices().length);
-                VertexUtil.moveVertices(v, Direction.UP, (float) (1 + BetterLily.OFFSET.get()));
+                VertexUtil.transformVertices(v, pose.last().pose());
 
                 quads.add(new BakedQuad(v, q.getTintIndex(), q.getDirection(), q.getSprite(), q.isShade()));
             }

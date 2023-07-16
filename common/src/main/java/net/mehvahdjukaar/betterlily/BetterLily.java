@@ -11,12 +11,13 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 
 public class BetterLily {
     public static final String MOD_ID = "betterlily";
-    public static Supplier<Double> OFFSET;
+
 
     public static ResourceLocation res(String name) {
         return new ResourceLocation(MOD_ID, name);
@@ -35,12 +36,6 @@ public class BetterLily {
     );
 
     public static void init() {
-        ConfigBuilder config = ConfigBuilder.create(MOD_ID, ConfigType.CLIENT);
-        OFFSET = config.comment("set to 0 tho have lilypads at the same exact position as vanilla." +
-                        "negative numbers will place them in their own blockspace right below avoiding any clipping." +
-                        "best of both worlds at default as its barely within its space")
-                .define("y_offset", -0.25/16f -0.001, -1, 1);
 
-        config.buildAndRegister();
     }
 }
