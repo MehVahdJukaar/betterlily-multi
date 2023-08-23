@@ -11,7 +11,7 @@ public class BetterLilyFabric implements ModInitializer {
     public void onInitialize() {
         BetterLily.init();
         if (PlatHelper.getPhysicalSide().isClient()) {
-            ClientHelper.addClientSetup(BetterLilyClient::init);
+            BetterLilyClient.init();
         }
     }
 
