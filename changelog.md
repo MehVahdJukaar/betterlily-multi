@@ -1,1 +1,1 @@
-fixed colors
+fixed fabric

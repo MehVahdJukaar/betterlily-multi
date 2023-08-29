@@ -11,7 +11,7 @@ public class BetterLilyFabric implements ModInitializer {
     public void onInitialize() {
         BetterLily.init();
         if(PlatformHelper.getEnv().isClient()){
-            ClientPlatformHelper.addClientSetup(BetterLilyClient::init);
+            BetterLilyClient.init();
         }
     }
 
